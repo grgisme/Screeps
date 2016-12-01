@@ -7,42 +7,41 @@
  * mod.thing == 'a thing'; // true
  */
  
- var logger = require("core.logger");
+ //noinspection JSUnresolvedFunction
+var logger = require("core.logger");
  
  var tower = {
      type: "tower",
      
      run: function(tower) {
-        if(tower) {
-            
-            var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-            if(closestHostile) {
-                tower.attack(closestHostile);
-                return true;
-            }
-            
-            var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: function(structure) {
-                    if(structure.structureType == STRUCTURE_ROAD ) {
-                       if(structure.hits > structure.hitsMax / 3) {
-                        return false;
-                       }
-                    }
-                    else if(structure.structureType == STRUCTURE_WALL) {
-                        if(structure.hits > 200000)
-                            return false;
-                    }
-                   return true;
-                }
-            });
-            
-            if(closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
-                return true;
-            }
-    
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if(closestHostile) {
+            tower.attack(closestHostile);
+            return true;
         }
-     }
+
+        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: function(structure) {
+                if(structure.structureType == STRUCTURE_ROAD ) {
+                   if(structure.hits > structure.hitsMax / 3) {
+                    return false;
+                   }
+                }
+                else if(structure.structureType == STRUCTURE_WALL) {
+                    if(structure.hits > 200000)
+                        return false;
+                }
+               return true;
+            }
+        });
+
+        if(closestDamagedStructure) {
+            tower.repair(closestDamagedStructure);
+            return true;
+        }
+
+    }
  };
 
+//noinspection JSUnresolvedVariable
 module.exports = tower;
